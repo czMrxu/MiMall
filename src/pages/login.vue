@@ -63,9 +63,14 @@
                     username,
                     password
                 }).then((res)=>{
-                    this.$cookie.set('userId', res.id, {expires: '1M'});
+                    this.$cookie.set('userId', res.id, {expires: 'Session'});
                     this.$store.dispatch('saveUserName', res.username);
-                    this.$router.push('/index');
+                    this.$router.push({
+                        name: 'index',
+                        params: {
+                            from: 'login'
+                        }
+                    });
                 });
             },
             register(){
@@ -74,7 +79,7 @@
                     password: 'admin1',
                     email: 'admin1@163.com'
                 }).then(()=>{
-                    alert('注册成功');
+                    this.$message.success('注册成功');
                 })
             }
         },

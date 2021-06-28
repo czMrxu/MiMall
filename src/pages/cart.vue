@@ -48,9 +48,9 @@
             <a href="/#/index">继续购物</a>
             共
             <span>{{list.length}}</span>
-            件商品，已选择
+            种商品，已选择
             <span>{{checkedNum}}</span>
-            件
+            种
           </div>
           <div class="total">
             合计：
@@ -62,7 +62,7 @@
       </div>
     </div>
     <nav-footer></nav-footer>
-    <modal :title="'提示'" :btnType="3" :showModal="showModal" @cancel="showModal = !showModal" @submit="delCart(delItem)">
+    <modal :title="'提示'" :btnType="'3'" :showModal="showModal" @cancel="showModal = !showModal" @submit="delCart(delItem)">
       <template slot: body>确定要删除购物车中的{{delItem.productName}}吗？</template>
     </modal>
   </div>
@@ -105,17 +105,19 @@
             let selected = item.productSelected;
             if(type=='+'){
               if(quantity==item.productStock){
-                alert('商品剩余库存不足');
+                this.$message.warning('商品剩余库存不足');
                 return;
               }else{
                 quantity++;
+                this.getCartCount();
               }
             }else if(type=='-'){
               if(quantity==1){
-                alert('商品最少保留一件');
+                this.$message.warning('商品最少保留一件');
                 return;
               }else{
                 quantity--;
+                this.getCartCount();
               }
             }else{
               selected = !selected;
@@ -133,6 +135,7 @@
               this.renderData(res);
               this.showModal = false;
               this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
+              this.$message.success('删除成功');
             });
           },
           // 改变全选状态
@@ -158,11 +161,18 @@
           order(){
             let isCheck = this.list.every(item=>!item.productSelected);
             if(isCheck){
-              alert('至少选择一件商品');
+              this.$message.warning('至少选择一件商品');
             }else{
               this.$router.push('order/confirm');
             }
           },
+          // 更新购物车数量
+          getCartCount(){
+            this.axios.get('/carts/products/sum').then((res=0)=>{
+            // to-do 保存到 vuex 里面
+            this.$store.dispatch('saveCartCount', res);
+          })
+      }
         }
     }
 </script>

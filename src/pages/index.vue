@@ -229,15 +229,17 @@
         })
       },
       addCart(id){
-        this.axios.post('/carts', {
-          productId: id,
-          selected: true
-        }).then((res)=>{
-          this.showModal = true;
-          this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
-        }).cath(()=>{
-          this.showModal = true;
-        })
+        if(this.$store.state.username){
+          this.axios.post('/carts', {
+            productId: id,
+            selected: true
+          }).then((res)=>{
+            this.showModal = true;
+            this.$store.dispatch('saveCartCount', res.cartTotalQuantity);
+          })
+        }else{
+          window.location.href = '/#/login';
+        }
       },
       goToCart(){
         this.$router.push('/cart');
