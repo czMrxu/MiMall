@@ -98,7 +98,7 @@
       :showModal="showModal"
       @submit="goToCart()"
       @cancel="showModal=false">
-      <template v-slot: body>
+      <template #body>
         <p>商品添加成功！</p>
       </template>
     </modal>

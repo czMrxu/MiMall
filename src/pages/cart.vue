@@ -47,10 +47,10 @@
           <div class="cart-tip">
             <a href="/#/index">继续购物</a>
             共
-            <span>{{list.length}}</span>
-            种商品，已选择
+            <span>{{cartTotalNum}}</span>
+            件商品，已选择
             <span>{{checkedNum}}</span>
-            种
+            件
           </div>
           <div class="total">
             合计：
@@ -61,15 +61,17 @@
         </div>
       </div>
     </div>
+    <service-bar></service-bar>
     <nav-footer></nav-footer>
     <modal :title="'提示'" :btnType="'3'" :showModal="showModal" @cancel="showModal = !showModal" @submit="delCart(delItem)">
-      <template slot: body>确定要删除购物车中的{{delItem.productName}}吗？</template>
+      <template #body>确定要删除购物车中的{{delItem.productName}}吗？</template>
     </modal>
   </div>
 </template>
 
 <script>
     import OrderHeader from '../components/OrderHeader.vue';
+    import ServiceBar from '../components/ServiceBar.vue';
     import NavFooter from '../components/NavFooter.vue';
     import Modal from '../components/Modal.vue';
     export default {
@@ -81,11 +83,13 @@
             list: [],   // 商品列表
             allChecked: false,   // 是否全选
             cartTotalPrice: 0,   //购物车总金额
+            cartTotalNum: 0,   // 购物车总数量
             checkedNum: 0,   // 选中商品数量
           }
         },
         components: {
             OrderHeader,
+            ServiceBar,
             NavFooter,
             Modal
         },
@@ -155,7 +159,13 @@
             this.list = res.cartProductVoList || [];
             this.allChecked = res.selectedAll;
             this.cartTotalPrice = res.cartTotalPrice;
-            this.checkedNum = this.list.filter(item=>item.productSelected).length;
+            this.list.map((item)=>{
+              this.cartTotalNum += item.quantity;
+            })
+            let checkedList = this.list.filter(item=>item.productSelected);
+            checkedList.map((item)=>{
+              this.checkedNum += item.quantity;
+            })
           },
           // 购物车下单
           order(){

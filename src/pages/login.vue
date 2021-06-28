@@ -75,9 +75,9 @@
             },
             register(){
                 this.axios.post('/user/register', {
-                    username: 'admin1',
-                    password: 'admin1',
-                    email: 'admin1@163.com'
+                    username: 'yk54xzq',
+                    password: 'yk54xzq',
+                    email: 'yk54xzq@163.com'
                 }).then(()=>{
                     this.$message.success('注册成功');
                 })
