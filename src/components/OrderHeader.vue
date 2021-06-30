@@ -7,7 +7,9 @@
       <div class="title fl">
         <h2>
           {{title}}
-          <slot name="tip"></slot> 
+          <span>
+            <slot name="tip"></slot> 
+          </span>
         </h2>
       </div>
       <div class="username fr">

@@ -1,5 +1,8 @@
 <template>
     <div class="order-confirm">
+        <order-header title="订单确认">
+            <template #tip>请认真填写收货地址</template>
+        </order-header>
         <div class="wrapper">
             <div class="container">
                 <div class="order-box">
@@ -126,6 +129,7 @@
 </template>
 
 <script>
+    import OrderHeader from '../components/OrderHeader.vue';
     import Modal from '../components/Modal.vue';
     export default {
         name: 'order-onfirm',
@@ -143,6 +147,7 @@
             }
         },
         components: {
+            OrderHeader,
             Modal,
         },
         mounted () {

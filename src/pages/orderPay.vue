@@ -1,62 +1,69 @@
 <template>
     <div class="order-pay">
-        <div class="container">
-            <div class="order-wrap">
-                <div class="item-order">
-                    <div class="icon-succ"></div>
-                    <div class="order-info">
-                        <h2>订单提交成功！去付款咯～</h2>
-                        <p>
-                            请在
-                            <span>30分</span>
-                            内完成支付, 超时后将取消订单
-                        </p>
-                        <p>收货信息：{{shippingInfo}}</p>
-                    </div>
-                    <div class="order-total">
-                        <p>
-                            应付总额：
-                            <span>{{totalPay}}</span>
-                            元
-                        </p>
-                        <p>
-                            订单详情
-                            <em class="icon-down" :class="{'isshow': showDetail}" @click="showDetail = !showDetail"></em>
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="product-warp" v-show="showDetail">
-                <div class="item-order">
-                    <div class="item">
-                        <span>订单号：</span>
-                        {{orderNo}}
-                    </div>
-                    <div class="item">
-                        <span>收货信息：</span>
-                        {{shippingInfo}}
-                    </div>
-                    <div class="item">
-                        <span>商品名称：</span>
-                        <ul>
-                            <li v-for="(item, index) in productList" :key="index">
-                                <img v-lazy="item.productImage" alt="">
-                                {{item.productName}}×{{item.quantity}}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="item">
-                        <span>发票信息：</span>
-                        电子发票 个人
+        <order-header title="订单支付">
+            <template #tip>
+                请谨防钓鱼链接或诈骗电话，了解更多>
+            </template>
+        </order-header>
+        <div class="wrapper">
+            <div class="container">
+                <div class="order-wrap">
+                    <div class="item-order">
+                        <div class="icon-succ"></div>
+                        <div class="order-info">
+                            <h2>订单提交成功！去付款咯～</h2>
+                            <p>
+                                请在
+                                <span>30分</span>
+                                内完成支付, 超时后将取消订单
+                            </p>
+                            <p>收货信息：{{shippingInfo}}</p>
+                        </div>
+                        <div class="order-total">
+                            <p>
+                                应付总额：
+                                <span>{{totalPay}}</span>
+                                元
+                            </p>
+                            <p>
+                                订单详情
+                                <em class="icon-down" :class="{'isshow': showDetail}" @click="showDetail = !showDetail"></em>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="item-pay">
-                <h3>选择以下支付方式付款</h3>
-                <div class="pay-way">
-                    <p>支付平台</p>
-                    <div class="pay pay-ali" :class="{'checked': payType==1}" @click="aliPay"></div>
-                    <div class="pay pay-wechat" :class="{'checked': payType==2}" @click="wechatPay"></div>
+                <div class="product-warp" v-show="showDetail">
+                    <div class="item-order">
+                        <div class="item">
+                            <span>订单号：</span>
+                            {{orderNo}}
+                        </div>
+                        <div class="item">
+                            <span>收货信息：</span>
+                            {{shippingInfo}}
+                        </div>
+                        <div class="item">
+                            <span>商品名称：</span>
+                            <ul>
+                                <li v-for="(item, index) in productList" :key="index">
+                                    <img v-lazy="item.productImage" alt="">
+                                    {{item.productName}}×{{item.quantity}}
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="item">
+                            <span>发票信息：</span>
+                            电子发票 个人
+                        </div>
+                    </div>
+                </div>
+                <div class="item-pay">
+                    <h3>选择以下支付方式付款</h3>
+                    <div class="pay-way">
+                        <p>支付平台</p>
+                        <div class="pay pay-ali" :class="{'checked': payType==1}" @click="aliPay"></div>
+                        <div class="pay pay-wechat" :class="{'checked': payType==2}" @click="wechatPay"></div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -69,6 +76,7 @@
 
 <script>
     import QRCode from 'qrcode';
+    import OrderHeader from '../components/OrderHeader.vue';
     import ScanPayCode from '../components/ScanPayCode.vue';
     import Modal from '../components/Modal.vue';
     export default {
@@ -88,6 +96,7 @@
             }
         },
         components: {
+            OrderHeader,
             ScanPayCode,
             Modal
         },
@@ -155,9 +164,11 @@
     @import '../assets/scss/config.scss';
     @import '../assets/scss/mixin.scss';
     .order-pay{
-        padding: 30px 0 61px;
-        background-color: $colorJ;
-        &>.container{
+        &>.wrapper{
+            padding: 30px 0 61px;
+            background-color: $colorJ;
+        }
+        .container{           
             &>.order-wrap{
                 height: 214px;
                 padding: 62px 50px;

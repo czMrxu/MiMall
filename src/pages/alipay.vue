@@ -1,11 +1,17 @@
 <template>
   <div class="alipay">
+    <order-header title="订单支付">
+      <template #body>
+        请谨防钓鱼链接或诈骗电话，了解更多>
+      </template>
+    </order-header>
     <loading></loading>
     <div class="form" v-html="content"></div>
   </div>
 </template>
 
 <script>
+    import OrderHeader from '../components/OrderHeader.vue';
     import Loading from '../components/Loading.vue';
     export default {
         name: 'alipay',
@@ -16,6 +22,7 @@
           }
         },
         components: {
+          OrderHeader,
           Loading,
         },
         mounted () {
