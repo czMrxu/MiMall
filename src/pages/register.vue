@@ -1,17 +1,15 @@
 <template>
-    <div class="login">
-        <div class="login-header container">
+    <div class="register">
+        <div class="register-header container">
             <a href="/#/index">
                 <img src="../../public/imgs/login-logo.png" alt="">
             </a>
         </div>
-        <div class="login-main">
+        <div class="register-main">
             <div class="container">
                 <form action="">
                     <h3>
-                        <span class="checked">账号登录</span>
-                        <span class="sep-line">|</span>
-                        <span>扫码登录</span>
+                        <span class="checked">账号注册</span>
                     </h3>
                     <div class="input">
                         <input type="text" placeholder="请输入账号"
@@ -21,13 +19,17 @@
                         <input type="password" placeholder="请输入密码"
                         v-model="password">
                     </div>
+                    <div class="input">
+                        <input type="text" placeholder="请输入邮箱"
+                        v-model="email">
+                    </div>
                     <div class="btn-box">
-                        <a href="javascript:;" class="btn" @click="login">
-                            登录
+                        <a href="javascript:;" class="btn" @click="register">
+                            注册
                         </a>
                     </div>
-                    <div class="sms" @click="goRegister">
-                        账号注册
+                    <div class="sms" @click="goLogin">
+                        账号登录
                     </div>
                 </form>
             </div>
@@ -48,33 +50,35 @@
 
 <script>
     export default {
-        name: 'login',
-        data(){
-            return{
+        name: 'register',
+        data() {
+            return {
                 username: '',
                 password: '',
-                userId: ''
+                email: '',
             }
         },
         methods: {
-            login() {
-                let {username, password} = this;
-                this.axios.post('/user/login', {
-                    username,
-                    password
-                }).then((res)=>{
-                    this.$cookie.set('userId', res.id, {expires: 'Session'});
-                    this.$store.dispatch('saveUserName', res.username);
-                    this.$router.push({
-                        name: 'index',
-                        params: {
-                            from: 'login'
-                        }
-                    });
-                });
+            goLogin() {
+                this.$router.push('/login');
             },
-            goRegister(){
-                this.$router.push('/register')
+            register(){
+                if(this.username.trim().length<4){
+                    this.$message.error('账号长度至少4位');
+                }else if(this.password.trim().length<4){
+                    this.$message.error('密码长度至少4位');
+                }else if(!(/^[A-Za-z0-9\u4e00-\u9fa5]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/.test(this.email))){
+                    this.$message.error('请填写正确的邮箱');
+                }else{
+                    this.axios.post('/user/register', {
+                        username: this.username.trim(),
+                        password: this.password.trim(),
+                        email: this.email
+                    }).then(()=>{
+                        this.$message.success('注册成功');
+                        this.$router.push('/login');
+                    })
+                }
             }
         },
     }
@@ -83,15 +87,15 @@
 <style lang="scss">
     @import '../assets/scss/config.scss';
     @import '../assets/scss/mixin.scss';
-    .login{
-        &>.login-header{
+    .register{
+        &>.register-header{
             height: 113px;
             &>a{
                 height: 100%;
                 display: inline-block;
             }
         }
-        &>.login-main{
+        &>.register-main{
             height: 576px;
             min-width: 1226px;
             @include bgImg(100%, 576px, '../../public/imgs/login-bg.jpg', cover);
@@ -113,9 +117,6 @@
                         &>span{
                             &.checked{
                                 color: $colorA;
-                            }
-                            &.sep-line{
-                                margin: 0 32px;
                             }
                         }
                     }

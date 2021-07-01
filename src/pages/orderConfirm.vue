@@ -339,12 +339,10 @@
                                 cursor: pointer;
                                 border: 1px solid rgb(229, 229, 229);
                                 &>.icon-add{
-                                    width: 30px;
-                                    height: 30px;
                                     border-radius: 50%;
                                     margin: 45px auto 10px;
-                                    background: url('../../public/imgs/icon-add.png') no-repeat center;
-                                    background-size: 15px 15px;
+                                    @include bgImg(30px, 30px, '../../public/imgs/icon-add.png', 15px 15px);
+                                    display: block;
                                     background-color: rgb(224, 224, 224);
                                 }
                                 &>div{

@@ -170,9 +170,8 @@
       }
     }
     &>.item-bg-2{
-      height: 480px;
-      background: url('../../public/imgs/product/product-bg-2.png') no-repeat center;
-      background-size: contain;
+      @include bgImg(1226px, 480px, '../../public/imgs/product/product-bg-2.png');
+      display: block;
     }
     &>.item-bg-3{
       height: 638px;
@@ -208,9 +207,8 @@
         margin-bottom: 58px;
       }
       &>.bg-video{
-        height: 540px;
-        background: url('../../public/imgs/product/gallery-1.png') no-repeat center;
-        background-size: contain;
+        cursor: pointer;
+        @include bgImg(100%, 540px, '../../public/imgs/product/gallery-1.png');
       }
       .video-box{
         .overlay{

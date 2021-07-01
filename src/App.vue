@@ -8,14 +8,6 @@
   // import storage from './storage'
   export default {
     name: 'App',
-    components: {
-      
-    },
-    data() {
-      return {
-        
-      }
-    },
     mounted() {
       if(this.$cookie.get('userId')){
         this.getUser();
